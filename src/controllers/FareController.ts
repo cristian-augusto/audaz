@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import FareRepositoy from "../repositories/FakeImplementation/FareRepository";
-import OperatorRepository from "../repositories/FakeImplementation/OperatorRepository";
+import { container } from "tsyringe";
 
+import AppError from "../models/AppError";
 import CreateFareService from "../services/CreateFareService";
 
 class FareController{
@@ -11,11 +11,9 @@ class FareController{
 
     const {operatorCode, fareValue} = request.body;
 
-    const operatorRepository = new OperatorRepository();
+    if(!operatorCode || !fareValue) throw new AppError('Missing required values.', 400);
 
-    const fareRepository = new FareRepositoy();
-
-    const createFare = new CreateFareService(operatorRepository, fareRepository);
+    const createFare = container.resolve(CreateFareService);
 
     const fare = await createFare.execute(operatorCode, fareValue);
 

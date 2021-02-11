@@ -1,4 +1,4 @@
-import { uuid } from 'uuidv4';
+import { v4 } from 'uuid';
 
 import Fare from "../../models/Fare";
 import IFareRepository from "../IFareRepository";
@@ -11,9 +11,9 @@ class FareRepositoy implements IFareRepository{
     return fares;
   }
 
-  async create(fareDTO: Pick<Fare, "operatorId" | "status" | "value">): Promise<Fare> {
+  async create(fareDTO: Omit<Fare, "id">): Promise<Fare> {
 
-    const fare: Fare = {...fareDTO, id: uuid() };
+    const fare: Fare = {...fareDTO, id: v4() };
     
     this.fares.push(fare);
 
