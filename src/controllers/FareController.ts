@@ -1,4 +1,6 @@
 import { Request, Response } from "express";
+import FareRepositoy from "../repositories/FakeImplementation/FareRepository";
+import OperatorRepository from "../repositories/FakeImplementation/OperatorRepository";
 
 import CreateFareService from "../services/CreateFareService";
 
@@ -9,7 +11,11 @@ class FareController{
 
     const {operatorCode, fareValue} = request.body;
 
-    const createFare = new CreateFareService();
+    const operatorRepository = new OperatorRepository();
+
+    const fareRepository = new FareRepositoy();
+
+    const createFare = new CreateFareService(operatorRepository, fareRepository);
 
     const fare = await createFare.execute(operatorCode, fareValue);
 

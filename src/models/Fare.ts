@@ -8,6 +8,8 @@ class Fare{
 
   value: number;
 
+  createdAt: Date;
+
 }
 
 export default Fare;
